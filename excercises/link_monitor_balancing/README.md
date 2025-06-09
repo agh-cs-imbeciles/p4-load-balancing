@@ -3,41 +3,39 @@
 ## Introduction
 
 The objective of this exercise is to write a P4 program that enables
-a host to monitor the utilization of all links in the network. This
-exercise builds upon the basic IPv4 forwarding exercise so be sure
+a host to monitor the utilization of all links in the network, and allow
+switches to decide how to load balance incoming packets. This
+exercise builds upon the basic link monitor excercise so be sure
 to complete that one before attempting this one. Specifically, we
-will modify the basic P4 program to process a source routed probe
-packet such that it is able to pick up the egress link utilization
-at each hop and deliver it to a host for monitoring purposes.
+will modify the basic P4 program to process incoming tcp packets and
+pass them to proper port using one of load balancing criterions:
+- round robin
+- smallest number of bytes
+- time windows
 
-Our probe packet will contain the following three header types:
+Our probe packet will contain the same headers as in link monitor. 
+Additionaly new header that handles tcp is added:
+
 ```
-// Top-level probe header, indicates how many hops this probe
-// packet has traversed so far.
-header probe_t {
-    bit<8> hop_cnt;
-}
-
-// The data added to the probe by each switch at each hop.
-header probe_data_t {
-    bit<1>    bos;
-    bit<7>    swid;
-    bit<8>    port;
-    bit<32>   byte_cnt;
-    time_t    last_time;
-    time_t    cur_time;
-}
-
-// Indicates the egress port the switch should send this probe
-// packet out of. There is one of these headers for each hop.
-header probe_fwd_t {
-    bit<8>   egress_spec;
+header tcp_t {
+    bit<16> srcPort;
+    bit<16> dstPort;
+    bit<32> seqNo;
+    bit<32> ackNo;
+    bit<4>  dataOffset;
+    bit<3>  res;
+    bit<3>  ecn;
+    bit<6>  ctrl;
+    bit<16> window;
+    bit<16> checksum;
+    bit<16> urgentPtr;
 }
 ```
 
 We will use the pod-topology for this exercise, which consists of
 four hosts connected to four switches that are wired up as they
-would be in a single pod of a fat tree topology.
+would be in a single pod of a fat tree topology. The same topology was used 
+in link monitor excercise.
 
 ![topology](./link-monitor-topo.png)
 
@@ -85,26 +83,22 @@ program:
 2. You should now see a Mininet command prompt. Open two terminals
 on `h1`:
    ```bash
-   mininet> xterm h1 h1
+   mininet> xterm h1 h4
    ```
-3. In one of the xterms run the `send.py` script to start sending
-probe packets every second. Each of these probe packets takes the
-path indicated in link-monitor-topo.png.
-   ```bash
-   ./send.py
-   ```
-4. In the other terminal run the `receive.py` script to start
-receiving and parsing the probe packets. This allows us to monitor
-the link utilization within the network.
-   ```bash
-   ./receive.py
-   ```
-The reported link utilization and the switch port numbers will
-always be 0 because the probe fields have not been filled out yet.
 
-5. Run an iperf flow between h1 and h4:
+3. In h4 terminal run the `receive_tcp.py` script to start
+receiving tcp packets.
    ```bash
-   mininet> iperf h1 h4
+   ./receive_tcp.py
+   ```
+   
+4. In h1 terminal run the `send_tcp.py` script to send tcp packet.
+   ```bash
+   ./send_tcp.py 10.0.4.4 “Message”
+   ```
+
+5. In logs folder you should see `Table 'MyIngress.tcp_lb_nhop': hit with handle` table entries indicating
+   which path was taken
    ```
 6. Type `exit` to leave each xterm and the Mininet command line.
    Then, to stop mininet:
@@ -152,10 +146,9 @@ Here are a few more details about the design:
 
 **Parser**
 * The parser has been extended support parsing of the source routed probe packets.
-The parser is the most complicated part of the design so spend a bit of time
-reading over it. Note that it does not contain any TODO comments so there is
-nothing you need to change here.
-* To parse the probe packets, we use the `hdr.probe.hop_cnt` to determine how many
+In comparison to link monitor it is enriched with tcp header parsing
+* First we check if packet is probe or ordinary tcp packet. If it is tcp then load balancing will be used
+to select best path. If type of packet is probe, we use the `hdr.probe.hop_cnt` to determine how many
 hops the packet has traversed prior to reaching the switch. If this is the first
 hop then there will not be any `probe_data` in the packet so we skip that state
 and transition directly to the `parse_probe_fwd` state. In the `parse_probe_fwd`
@@ -164,10 +157,10 @@ header field to use to perform forwarding and we save that port value into a
 metadata field which is subsequently used to perform forwarding.
 
 **Ingress Control**
-* The ingress control block looks very similar to the `basic` exercise. The only
-difference is that the `apply` block contains another condition to forward probe
-packets using the `egress_spec` field extracted by the parser. It also increments
-the `hdr.probe.hop_cnt` field.
+* The ingress control block is a bit different than link monitor excercise. The main
+difference is that in the `apply` block we may encounter tcp packet. There are also two
+new actions one is `tcp_lb_action`, which should be modified to perform load balancing.
+Worth mentioning is `tcp_lb_nhop_action` which sets next hop for L2 layer.
 
 **Egress Control**
 * This is where the interesting stateful processing occurs. It uses the
@@ -175,18 +168,12 @@ the `hdr.probe.hop_cnt` field.
 port since the last probe packet passed through the port.
 * It adds a new `probe_data` header to the packet and filld out the `bos`
 (bottom of stack) field, as well as the `swid` (switch ID) field.
-* TODO: your job is to fill out the rest of the probe packet fields in order to
-ensure that you can properly measure link utilization.
+* It's already filled with proper instructions form link_monitor excercise
 
 **Deparser**
 * Simply emits all headers in the correct order.
 * Note that emitting a header stack will only emit the headers within the stack
 that are actually marked as valid.
-
-## Step 3: Run your solution
-
-Follow the instructions from Step 1. This time, the measured link
-utilizations should agree with what `iperf` reports.
 
 ### Troubleshooting
 
@@ -216,14 +203,6 @@ these instances:
 ```bash
 make stop
 ```
-
-### Food For Thought
-
-Now that you've implemented this basic monitoring framework can you
-think of ways to leverage this information about link utilization
-within the core of the network? For instance, how might you use this
-data, either at the hosts or at the switches, to make real-time
-load-balancing decisions?
 
 ## Relevant Documentation
 

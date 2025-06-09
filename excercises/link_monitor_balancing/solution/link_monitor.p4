@@ -221,58 +221,58 @@ control MyIngress(inout headers hdr,
         last_time_reg.read(last_time1, (bit<32>) port1);
         last_time_reg.read(last_time2, (bit<32>) port2);
 
-        // bit<48> util1;
-        // bit<48> util2;
+        bit<48> util1;
+        bit<48> util2;
 
-        // // 1st strategy - least bytes sent
-        // util1 = (bit<48>) byte_cnt1;
-        // util2 = (bit<48>) byte_cnt2;
+        // 1st strategy - least bytes sent
+        util1 = (bit<48>) byte_cnt1;
+        util2 = (bit<48>) byte_cnt2;
 
         // // 2nd strategy - round robin
         // util1 = last_time1;
         // util2 = last_time2;
 
-        // if (util1 <= util2) {
-        //     selected_port = port1;
-        //     new_byte_cnt = byte_cnt1 + standard_metadata.packet_length;
-        // } else {
-        //     selected_port = port2;
-        //     new_byte_cnt = byte_cnt2 + standard_metadata.packet_length;
+        if (util1 <= util2) {
+            selected_port = port1;
+            new_byte_cnt = byte_cnt1 + standard_metadata.packet_length;
+        } else {
+            selected_port = port2;
+            new_byte_cnt = byte_cnt2 + standard_metadata.packet_length;
+        }
+
+        // 1st, 2nd - Update the registers
+        last_time_reg.write((bit<32>) selected_port, cur_time);
+        byte_cnt_reg.write((bit<32>) selected_port, new_byte_cnt);
+
+        // // 3rd strategy - keep 1st port if there are packets in subsequent intervals smaller than 3 seconds coming, otherwise switch to 2nd port
+        // if (last_time1 > last_time2) {
+        //     if (cur_time - last_time1 < 3000000) {
+        //         // old window for 1st
+        //         selected_port = port1;
+        //         new_byte_cnt = byte_cnt1 + standard_metadata.packet_length;
+        //     }
+        //     else {
+        //         // new window for 2nd
+        //         selected_port = port2;
+        //         new_byte_cnt = byte_cnt2 + standard_metadata.packet_length;
+        //     }
+        // }
+        // else {
+        //     if (cur_time - last_time2 > 3000000) {
+        //         // old window for 2nd
+        //         selected_port = port2;
+        //         new_byte_cnt = byte_cnt2 + standard_metadata.packet_length;
+        //     }
+        //     else {
+        //         // new window for 1st
+        //         selected_port = port1;
+        //         new_byte_cnt = byte_cnt1 + standard_metadata.packet_length;
+        //     }
         // }
 
-        // // 1st, 2nd - Update the registers
-        // last_time_reg.write((bit<32>) selected_port, cur_time);
+        // // 3rd - Update the registers
         // byte_cnt_reg.write((bit<32>) selected_port, new_byte_cnt);
-
-        // 3rd strategy - keep 1st port if there are packets in subsequent intervals smaller than 3 seconds coming, otherwise switch to 2nd port
-        if (last_time1 > last_time2) {
-            if (cur_time - last_time1 < 3000000) {
-                // old window for 1st
-                selected_port = port1;
-                new_byte_cnt = byte_cnt1 + standard_metadata.packet_length;
-            }
-            else {
-                // new window for 2nd
-                selected_port = port2;
-                new_byte_cnt = byte_cnt2 + standard_metadata.packet_length;
-            }
-        }
-        else {
-            if (cur_time - last_time2 > 3000000) {
-                // old window for 2nd
-                selected_port = port2;
-                new_byte_cnt = byte_cnt2 + standard_metadata.packet_length;
-            }
-            else {
-                // new window for 1st
-                selected_port = port1;
-                new_byte_cnt = byte_cnt1 + standard_metadata.packet_length;
-            }
-        }
-
-        // 3rd - Update the registers
-        byte_cnt_reg.write((bit<32>) selected_port, new_byte_cnt);
-        last_time_reg.write((bit<32>) selected_port, cur_time);
+        // last_time_reg.write((bit<32>) selected_port, cur_time);
 
         // Append selected port to metadata
         meta.lb_port = selected_port;
@@ -392,10 +392,8 @@ control MyEgress(inout headers hdr,
             }
             // set switch ID field
             swid.apply();
-            // TODO: fill out the rest of the probe packet fields
             hdr.probe_data[0].port = (bit<8>) standard_metadata.egress_port;
             hdr.probe_data[0].byte_cnt = byte_cnt;
-            // TODO: read / update the last_time_reg
             last_time_reg.read(last_time, (bit<32>) standard_metadata.egress_port);
             last_time_reg.write((bit<32>) standard_metadata.egress_port, cur_time);
             hdr.probe_data[0].last_time = last_time;
