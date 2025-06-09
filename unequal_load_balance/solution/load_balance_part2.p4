@@ -43,7 +43,7 @@ header tcp_t {
 }
 
 struct metadata {
-    bit<14> ecmp_select;
+    bit<14> mp_select;
 }
 
 struct headers {
@@ -102,8 +102,19 @@ control MyIngress(inout headers hdr,
     action drop() {
         mark_to_drop(standard_metadata);
     }
-    action set_ecmp_select(bit<16> ecmp_base, bit<32> ecmp_count) {
-        hash(meta.ecmp_select,
+    action set_mp_select(
+        bit<16> ecmp_base,
+        bit<32> ecmp_count,
+        bit<32> weight
+    ) {
+        /*
+         * PART 1:
+         * Hash on 5-tuple and save the hash result in meta.mp_select
+         * so that the ecmp_nhop table can use it to make a forwarding decision
+         * accordingly.
+         */
+        hash(
+            meta.mp_select,
             HashAlgorithm.crc16,
             ecmp_base,
             { hdr.ipv4.srcAddr,
@@ -111,7 +122,36 @@ control MyIngress(inout headers hdr,
               hdr.ipv4.protocol,
               hdr.tcp.srcPort,
               hdr.tcp.dstPort },
-            ecmp_count);
+            ecmp_count
+        );
+
+        /*
+         * PART 2:
+         * Extend the part 1. Unequal-cost load balancing is determined on
+         * set weight. Only switch S1 has specified weights, other ones have
+         * weights equal to 0, in such scenarios we should use equal-cost load
+         * balancing instead, this should be kept in mind.
+         */
+        bit<32> random_factor;
+        hash(
+            random_factor,
+            HashAlgorithm.crc16,
+            ecmp_base,
+            { hdr.ipv4.srcAddr,
+              hdr.ipv4.dstAddr,
+              hdr.ipv4.protocol,
+              hdr.tcp.srcPort,
+              hdr.tcp.dstPort },
+            ecmp_count
+        );
+        if (weight > 0) {
+            if (random_factor <= weight) {
+                meta.mp_select = 0;
+            }
+            else {
+                meta.mp_select = 1;
+            }
+        }
     }
     action set_nhop(bit<48> nhop_dmac, bit<32> nhop_ipv4, bit<9> port) {
         hdr.ethernet.dstAddr = nhop_dmac;
@@ -125,13 +165,13 @@ control MyIngress(inout headers hdr,
         }
         actions = {
             drop;
-            set_ecmp_select;
+            set_mp_select;
         }
         size = 1024;
     }
     table ecmp_nhop {
         key = {
-            meta.ecmp_select: exact;
+            meta.mp_select: exact;
         }
         actions = {
             drop;

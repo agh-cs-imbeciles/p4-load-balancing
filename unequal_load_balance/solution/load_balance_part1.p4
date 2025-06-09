@@ -43,7 +43,7 @@ header tcp_t {
 }
 
 struct metadata {
-    bit<14> ecmp_select;
+    bit<14> mp_select;
 }
 
 struct headers {
@@ -60,6 +60,7 @@ parser MyParser(packet_in packet,
                 out headers hdr,
                 inout metadata meta,
                 inout standard_metadata_t standard_metadata) {
+
     state start {
         transition parse_ethernet;
     }
@@ -98,13 +99,39 @@ control MyVerifyChecksum(inout headers hdr, inout metadata meta) {
 control MyIngress(inout headers hdr,
                   inout metadata meta,
                   inout standard_metadata_t standard_metadata) {
-
     action drop() {
         mark_to_drop(standard_metadata);
     }
-    action set_ecmp_select(bit<16> ecmp_base, bit<32> ecmp_count) {
-        /* TODO: hash on 5-tuple and save the hash result in meta.ecmp_select
-           so that the ecmp_nhop table can use it to make a forwarding decision accordingly */
+    action set_mp_select(
+        bit<16> ecmp_base,
+        bit<32> ecmp_count,
+        bit<32> weight
+    ) {
+        /*
+         * PART 1:
+         * Hash on 5-tuple and save the hash result in meta.mp_select
+         * so that the ecmp_nhop table can use it to make a forwarding decision
+         * accordingly.
+         */
+        hash(
+            meta.mp_select,
+            HashAlgorithm.crc16,
+            ecmp_base,
+            { hdr.ipv4.srcAddr,
+              hdr.ipv4.dstAddr,
+              hdr.ipv4.protocol,
+              hdr.tcp.srcPort,
+              hdr.tcp.dstPort },
+            ecmp_count
+        );
+
+        /*
+         * TODO PART 2:
+         * Extend the part 1. Unequal-cost load balancing is determined on
+         * set weight. Only switch S1 has specified weights, other ones have
+         * weights equal to 0, in such scenarios we should use equal-cost load
+         * balancing instead, this should be kept in mind.
+         */
     }
     action set_nhop(bit<48> nhop_dmac, bit<32> nhop_ipv4, bit<9> port) {
         hdr.ethernet.dstAddr = nhop_dmac;
@@ -118,13 +145,13 @@ control MyIngress(inout headers hdr,
         }
         actions = {
             drop;
-            set_ecmp_select;
+            set_mp_select;
         }
         size = 1024;
     }
     table ecmp_nhop {
         key = {
-            meta.ecmp_select: exact;
+            meta.mp_select: exact;
         }
         actions = {
             drop;
@@ -133,11 +160,10 @@ control MyIngress(inout headers hdr,
         size = 2;
     }
     apply {
-        /* TODO: apply ecmp_group table and ecmp_nhop table if IPv4 header is
-         * valid and TTL hasn't reached zero
-         */
-        ecmp_group.apply();
-        ecmp_nhop.apply();
+        if (hdr.ipv4.isValid() && hdr.ipv4.ttl > 0) {
+            ecmp_group.apply();
+            ecmp_nhop.apply();
+        }
     }
 }
 
