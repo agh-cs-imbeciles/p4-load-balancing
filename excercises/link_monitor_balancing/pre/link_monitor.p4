@@ -39,6 +39,20 @@ header ipv4_t {
     ip4Addr_t dstAddr;
 }
 
+header tcp_t {
+    bit<16> srcPort;
+    bit<16> dstPort;
+    bit<32> seqNo;
+    bit<32> ackNo;
+    bit<4>  dataOffset;
+    bit<3>  res;
+    bit<3>  ecn;
+    bit<6>  ctrl;
+    bit<16> window;
+    bit<16> checksum;
+    bit<16> urgentPtr;
+}
+
 // Top-level probe header, indicates how many hops this probe
 // packet has traversed so far.
 header probe_t {
@@ -67,12 +81,14 @@ struct parser_metadata_t {
 
 struct metadata {
     bit<8> egress_spec;
+    egressSpec_t lb_port;
     parser_metadata_t parser_metadata;
 }
 
 struct headers {
     ethernet_t              ethernet;
     ipv4_t                  ipv4;
+    tcp_t                   tcp;
     probe_t                 probe;
     probe_data_t[MAX_HOPS]  probe_data;
     probe_fwd_t[MAX_HOPS]   probe_fwd;
@@ -102,6 +118,14 @@ parser MyParser(packet_in packet,
 
     state parse_ipv4 {
         packet.extract(hdr.ipv4);
+            transition select(hdr.ipv4.protocol) {
+            6: parse_tcp;
+            default: accept;
+        }
+    }
+
+    state parse_tcp {
+        packet.extract(hdr.tcp);
         transition accept;
     }
 
@@ -151,12 +175,61 @@ control MyIngress(inout headers hdr,
                   inout metadata meta,
                   inout standard_metadata_t standard_metadata) {
 
+    // count the total number of bytes sent
+    register<bit<32>>(MAX_PORTS) byte_cnt_reg;
+    // time of last packet sent
+    register<time_t>(MAX_PORTS) last_time_reg;
+
+    /*
+    What we changed here:
+    - an algorithm that will check if the packet has TCP header
+    - if it has it means it is not a probe but regular TCP packet
+    - instead of forwarding it with ipv4_lpm table, apply the load balancing logic (TO IMPLEMENT)
+    */
+
     action drop() {
         mark_to_drop(standard_metadata);
     }
 
     action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) {
         standard_metadata.egress_spec = port;
+        hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
+        hdr.ethernet.dstAddr = dstAddr;
+        hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
+    }
+
+    // Load balancing logic:
+    // - choose route based on link utilization
+    // - set destination port accordingly to selected route
+    // Assumption/Simplification: there are max 2 possible routes to choose from
+    action tcp_lb_action(
+        egressSpec_t port1,
+        egressSpec_t port2) {
+
+        bit<32> byte_cnt1;
+        bit<32> byte_cnt2;
+        time_t last_time1;
+        time_t last_time2;
+    
+        bit<32> new_byte_cnt;
+        time_t cur_time = standard_metadata.ingress_global_timestamp;
+        egressSpec_t selected_port;
+
+        // Read bytes send by each link and store results
+        byte_cnt_reg.read(byte_cnt1, (bit<32>) port1);
+        byte_cnt_reg.read(byte_cnt2, (bit<32>) port2);
+        last_time_reg.read(last_time1, (bit<32>) port1);
+        last_time_reg.read(last_time2, (bit<32>) port2);
+
+        //TODO: Add port selection logic here
+        
+        // Append selected port to metadata
+        meta.lb_port = selected_port;
+        standard_metadata.egress_spec = selected_port;
+    }
+
+    // sets L2 addresses for the next hop 
+    action tcp_lb_nhop_action(macAddr_t dstAddr) {
         hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
         hdr.ethernet.dstAddr = dstAddr;
         hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
@@ -175,8 +248,40 @@ control MyIngress(inout headers hdr,
         default_action = drop();
     }
 
+    // Load balancing table #1 for selecting next hop port
+    table tcp_lb {
+        key = {
+            hdr.ipv4.dstAddr: lpm; // longest prefix match on destination IP
+        }
+        actions = {
+            tcp_lb_action;
+            drop;
+            NoAction;
+        }
+        size = MAX_PORTS;
+        default_action = drop();
+    }
+
+    // Load balancing table #2 for setting destination addresses according to selected port
+    table tcp_lb_nhop {
+        key = {
+            meta.lb_port: exact; // exact match on the selected port
+        }
+        actions = {
+            tcp_lb_nhop_action;
+            drop;
+            NoAction;
+        }
+        size = MAX_PORTS;
+        default_action = drop();
+    }
+
     apply {
-        if (hdr.ipv4.isValid()) {
+        if (hdr.tcp.isValid()) { // Apply load balancing if TCP packet
+            tcp_lb.apply();
+            tcp_lb_nhop.apply();
+        }
+        else if (hdr.ipv4.isValid()) {
             ipv4_lpm.apply();
         }
         else if (hdr.probe.isValid()) {
@@ -184,6 +289,7 @@ control MyIngress(inout headers hdr,
             hdr.probe.hop_cnt = hdr.probe.hop_cnt + 1;
         }
     }
+    
 }
 
 /*************************************************************************
@@ -236,13 +342,13 @@ control MyEgress(inout headers hdr,
             // set switch ID field
             swid.apply();
             // TODO: fill out the rest of the probe packet fields
-            // hdr.probe_data[0].port = ...
-            // hdr.probe_data[0].byte_cnt = ...
+            hdr.probe_data[0].port = (bit<8>) standard_metadata.egress_port;
+            hdr.probe_data[0].byte_cnt = byte_cnt;
             // TODO: read / update the last_time_reg
-            // last_time_reg.read(<val>, <index>);
-            // last_time_reg.write(<index>, <val>);
-            // hdr.probe_data[0].last_time = ...
-            // hdr.probe_data[0].cur_time = ...
+            last_time_reg.read(last_time, (bit<32>) standard_metadata.egress_port);
+            last_time_reg.write((bit<32>) standard_metadata.egress_port, cur_time);
+            hdr.probe_data[0].last_time = last_time;
+            hdr.probe_data[0].cur_time = cur_time;
         }
     }
 }
