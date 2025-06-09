@@ -104,8 +104,7 @@ control MyIngress(inout headers hdr,
     }
     action set_mp_select(
         bit<16> ecmp_base,
-        bit<32> ecmp_count,
-        bit<32> weight
+        bit<32> ecmp_count
     ) {
         /*
          * PART 1:
@@ -126,32 +125,13 @@ control MyIngress(inout headers hdr,
         );
 
         /*
-         * PART 2:
+         * TODO PART 2:
          * Extend the part 1. Unequal-cost load balancing is determined on
-         * set weight. Only switch S1 has specified weights, other ones have
-         * weights equal to 0, in such scenarios we should use equal-cost load
-         * balancing instead, this should be kept in mind.
+         * set weight. Save hash result into a variable, e.g. random_factor and use it with weight
+         * to determine meta.mp_select. Only switch S1 has specified weight and changed ecmp_count
+         * to higher value for more granularity in balancing, other ones have weight equal to 0,
+         * remember about updating switch configurations.
          */
-        bit<32> random_factor;
-        hash(
-            random_factor,
-            HashAlgorithm.crc16,
-            ecmp_base,
-            { hdr.ipv4.srcAddr,
-              hdr.ipv4.dstAddr,
-              hdr.ipv4.protocol,
-              hdr.tcp.srcPort,
-              hdr.tcp.dstPort },
-            ecmp_count
-        );
-        if (weight > 0) {
-            if (random_factor <= weight) {
-                meta.mp_select = 0;
-            }
-            else {
-                meta.mp_select = 1;
-            }
-        }
     }
     action set_nhop(bit<48> nhop_dmac, bit<32> nhop_ipv4, bit<9> port) {
         hdr.ethernet.dstAddr = nhop_dmac;

@@ -15,6 +15,10 @@ value to forward the packet to the selected host.
 > sub-directory. Feel free to compare your implementation to the
 > reference.
 
+## Topology
+
+![Topology](./topo.png)
+
 ## Step 1: Run the (incomplete) starter code
 
 The directory with this README also contains a skeleton P4 program,
@@ -83,15 +87,18 @@ A complete `load_balance.p4` will contain the following components:
 1. Header type definitions for Ethernet (`ethernet_t`) and IPv4 (`ipv4_t`).
 2. Parsers for Ethernet and IPv4 that populate `ethernet_t` and `ipv4_t` fields.
 3. An action to drop a packet, using `mark_to_drop()`.
-4. **TODO:** An action (called `set_mp_select`), which will:
+4. **TODO PART 1:** An action (called `set_mp_select`), which:
    1. Hashes the 5-tuple specified above using the `hash` extern
    2. Stores the result in the `meta.mp_select` field
-5. **TODO:** A control that:
+5. **TODO PART 2:** A extension of action `set_mp_select()` from the 1st part of TODO, which:
+   1. Hashes the 5-tuple into some variable (s1 switch configuration JSON also needs to be updated, weight and max_factor need to be set)
+   2. Based on the hashing result and weight chooses the destination address
+6. **TODO:** A control that:
    1. Applies the `ecmp_group` table.
    2. Applies the `ecmp_nhop` table.
-6. A deparser that selects the order in which fields inserted into the outgoing
+7. A deparser that selects the order in which fields inserted into the outgoing
    packet.
-7. A `package` instantiation supplied with the parser, control, and deparser.
+8. A `package` instantiation supplied with the parser, control, and deparser.
    > In general, a package also requires instances of checksum verification
    > and recomputation controls. These are not necessary for this tutorial
    > and are replaced with instantiations of empty controls.
@@ -100,7 +107,7 @@ A complete `load_balance.p4` will contain the following components:
 
 Follow the instructions from Step 1. This time, your message from
 `h1` should be delivered to `h2` or `h3`. If you send several
-messages, some should be received by each server.
+messages, some should be received by each server. Check you solution after implementing part 1 and part 2, for part 2 experiment with various weight values.
 
 ### Troubleshooting
 
@@ -131,17 +138,13 @@ these instances:
 make stop
 ```
 
-## Next Steps
-
-Congratulations, your implementation works! Move on to [Quality of Service](../qos).
-
 ## Relevant Documentation
 
 Documentation on the Usage of Gateway (gw) and ARP Commands in topology.json is [here](https://github.com/p4lang/tutorials/tree/master/exercises/basic#the-use-of-gateway-gw-and-arp-commands-in-topologyjson)
 
 The documentation for P4_16 and P4Runtime is available [here](https://p4.org/specs/)
 
-All excercises in this repository use the v1model architecture, the documentation for which is available at:
+The documentation for v1model architecture is available at:
 
 1. The BMv2 Simple Switch target document accessible [here](https://github.com/p4lang/behavioral-model/blob/master/docs/simple_switch.md) talks mainly about the v1model architecture.
 2. The include file `v1model.p4` has extensive comments and can be accessed [here](https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4).
