@@ -159,7 +159,11 @@ metadata field which is subsequently used to perform forwarding.
 **Ingress Control**
 * The ingress control block is a bit different than link monitor excercise. The main
 difference is that in the `apply` block we may encounter tcp packet. There are also two
-new actions one is `tcp_lb_action`, which should be modified to perform load balancing.
+new actions one is `tcp_lb_action`, which should be modified to perform load balancing. 
+Implement those types:
+- smallest number of bytes
+- round robin
+- time windows
 Worth mentioning is `tcp_lb_nhop_action` which sets next hop for L2 layer.
 
 **Egress Control**
