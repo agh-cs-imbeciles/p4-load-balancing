@@ -1,0 +1,1076 @@
+Calling target program-options parser
+[08:37:31.965] [bmv2] [D] [thread 65421] Set default default entry for table 'MyIngress.ecmp_group': NoAction - 
+[08:37:31.968] [bmv2] [D] [thread 65421] Set default default entry for table 'MyIngress.ecmp_nhop': NoAction - 
+[08:37:31.968] [bmv2] [D] [thread 65421] Set default default entry for table 'MyEgress.send_frame': NoAction - 
+Adding interface s3-eth1 as port 1
+[08:37:31.972] [bmv2] [D] [thread 65421] Adding interface s3-eth1 as port 1
+Adding interface s3-eth2 as port 2
+[08:37:32.009] [bmv2] [D] [thread 65421] Adding interface s3-eth2 as port 2
+Adding interface s3-eth3 as port 3
+[08:37:32.037] [bmv2] [D] [thread 65421] Adding interface s3-eth3 as port 3
+Server listening on 0.0.0.0:50053
+[08:37:32.074] [bmv2] [I] [thread 65421] Starting Thrift server on port 9092
+[08:37:32.084] [bmv2] [I] [thread 65421] Thrift server was started
+[08:37:32.913] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Processing packet received on port 2
+[08:37:32.914] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Parser 'parser': start
+[08:37:32.914] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:32.914] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Extracting header 'ethernet'
+[08:37:32.914] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:32.914] [bmv2] [T] [thread 65431] [0.0] [cxt 0] Bytes parsed: 14
+[08:37:32.914] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Parser 'parser': end
+[08:37:32.914] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Pipeline 'ingress': start
+[08:37:32.914] [bmv2] [T] [thread 65431] [0.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:32.914] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Pipeline 'ingress': end
+[08:37:32.914] [bmv2] [D] [thread 65431] [0.0] [cxt 0] Egress port is 0
+[08:37:32.915] [bmv2] [D] [thread 65432] [0.0] [cxt 0] Pipeline 'egress': start
+[08:37:32.915] [bmv2] [T] [thread 65432] [0.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:32.915] [bmv2] [D] [thread 65432] [0.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:32.915] [bmv2] [D] [thread 65432] [0.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:32.915] [bmv2] [D] [thread 65432] [0.0] [cxt 0] Action entry is NoAction - 
+[08:37:32.915] [bmv2] [T] [thread 65432] [0.0] [cxt 0] Action NoAction
+[08:37:32.915] [bmv2] [D] [thread 65432] [0.0] [cxt 0] Pipeline 'egress': end
+[08:37:32.915] [bmv2] [D] [thread 65432] [0.0] [cxt 0] Deparser 'deparser': start
+[08:37:32.915] [bmv2] [T] [thread 65432] [0.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:32.915] [bmv2] [D] [thread 65432] [0.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:32.915] [bmv2] [D] [thread 65432] [0.0] [cxt 0] Deparser 'deparser': end
+[08:37:32.916] [bmv2] [D] [thread 65436] [0.0] [cxt 0] Transmitting packet of size 90 out of port 0
+[08:37:34.054] [bmv2] [W] [thread 65467] [P4Runtime] p4::tmp::P4DeviceConfig is deprecated
+[08:37:34.057] [bmv2] [D] [thread 65467] Set default default entry for table 'MyIngress.ecmp_group': NoAction - 
+[08:37:34.057] [bmv2] [D] [thread 65467] Set default default entry for table 'MyIngress.ecmp_nhop': NoAction - 
+[08:37:34.058] [bmv2] [D] [thread 65467] Set default default entry for table 'MyEgress.send_frame': NoAction - 
+[08:37:34.059] [bmv2] [D] [thread 65467] simple_switch target has been notified of a config swap
+[08:37:34.063] [bmv2] [D] [thread 65469] Set default entry for table 'MyIngress.ecmp_group': MyIngress.drop - 
+[08:37:34.082] [bmv2] [D] [thread 65467] Entry 0 added to table 'MyIngress.ecmp_group'
+[08:37:34.082] [bmv2] [D] [thread 65467] Dumping entry 0
+Match key:
+* hdr.ipv4.dstAddr    : LPM       0a000303/32
+Action entry: MyIngress.set_mp_select - 0,1,
+
+[08:37:34.097] [bmv2] [D] [thread 65469] Entry 0 added to table 'MyIngress.ecmp_nhop'
+[08:37:34.097] [bmv2] [D] [thread 65469] Dumping entry 0
+Match key:
+* meta.mp_select      : EXACT     0000
+Action entry: MyIngress.set_nhop - 80000000303,a000303,1,
+
+[08:37:34.109] [bmv2] [D] [thread 65467] Entry 0 added to table 'MyEgress.send_frame'
+[08:37:34.109] [bmv2] [D] [thread 65467] Dumping entry 0
+Match key:
+* standard_metadata.egress_port: EXACT     0001
+Action entry: MyEgress.rewrite_mac - 80000000300,
+
+[08:37:35.508] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Processing packet received on port 1
+[08:37:35.508] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Parser 'parser': start
+[08:37:35.508] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:35.509] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Extracting header 'ethernet'
+[08:37:35.509] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:35.509] [bmv2] [T] [thread 65431] [1.0] [cxt 0] Bytes parsed: 14
+[08:37:35.509] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Parser 'parser': end
+[08:37:35.509] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Pipeline 'ingress': start
+[08:37:35.509] [bmv2] [T] [thread 65431] [1.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:35.509] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Pipeline 'ingress': end
+[08:37:35.509] [bmv2] [D] [thread 65431] [1.0] [cxt 0] Egress port is 0
+[08:37:35.509] [bmv2] [D] [thread 65432] [1.0] [cxt 0] Pipeline 'egress': start
+[08:37:35.509] [bmv2] [T] [thread 65432] [1.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:35.509] [bmv2] [D] [thread 65432] [1.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:35.509] [bmv2] [D] [thread 65432] [1.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:35.509] [bmv2] [D] [thread 65432] [1.0] [cxt 0] Action entry is NoAction - 
+[08:37:35.509] [bmv2] [T] [thread 65432] [1.0] [cxt 0] Action NoAction
+[08:37:35.509] [bmv2] [D] [thread 65432] [1.0] [cxt 0] Pipeline 'egress': end
+[08:37:35.509] [bmv2] [D] [thread 65432] [1.0] [cxt 0] Deparser 'deparser': start
+[08:37:35.509] [bmv2] [T] [thread 65432] [1.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:35.509] [bmv2] [D] [thread 65432] [1.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:35.509] [bmv2] [D] [thread 65432] [1.0] [cxt 0] Deparser 'deparser': end
+[08:37:35.510] [bmv2] [D] [thread 65436] [1.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Processing packet received on port 3
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Parser 'parser': start
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Extracting header 'ethernet'
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:35.762] [bmv2] [T] [thread 65431] [2.0] [cxt 0] Bytes parsed: 14
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Parser 'parser': end
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Pipeline 'ingress': start
+[08:37:35.762] [bmv2] [T] [thread 65431] [2.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Pipeline 'ingress': end
+[08:37:35.762] [bmv2] [D] [thread 65431] [2.0] [cxt 0] Egress port is 0
+[08:37:35.763] [bmv2] [D] [thread 65432] [2.0] [cxt 0] Pipeline 'egress': start
+[08:37:35.763] [bmv2] [T] [thread 65432] [2.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:35.763] [bmv2] [D] [thread 65432] [2.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:35.763] [bmv2] [D] [thread 65432] [2.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:35.763] [bmv2] [D] [thread 65432] [2.0] [cxt 0] Action entry is NoAction - 
+[08:37:35.763] [bmv2] [T] [thread 65432] [2.0] [cxt 0] Action NoAction
+[08:37:35.763] [bmv2] [D] [thread 65432] [2.0] [cxt 0] Pipeline 'egress': end
+[08:37:35.763] [bmv2] [D] [thread 65432] [2.0] [cxt 0] Deparser 'deparser': start
+[08:37:35.763] [bmv2] [T] [thread 65432] [2.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:35.763] [bmv2] [D] [thread 65432] [2.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:35.764] [bmv2] [D] [thread 65432] [2.0] [cxt 0] Deparser 'deparser': end
+[08:37:35.764] [bmv2] [D] [thread 65436] [2.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:36.017] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Processing packet received on port 2
+[08:37:36.017] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Parser 'parser': start
+[08:37:36.017] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:36.017] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Extracting header 'ethernet'
+[08:37:36.018] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:36.018] [bmv2] [T] [thread 65431] [3.0] [cxt 0] Bytes parsed: 14
+[08:37:36.018] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Parser 'parser': end
+[08:37:36.018] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Pipeline 'ingress': start
+[08:37:36.018] [bmv2] [T] [thread 65431] [3.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:36.018] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Pipeline 'ingress': end
+[08:37:36.018] [bmv2] [D] [thread 65431] [3.0] [cxt 0] Egress port is 0
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Processing packet received on port 3
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Parser 'parser': start
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Extracting header 'ethernet'
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:36.018] [bmv2] [T] [thread 65431] [4.0] [cxt 0] Bytes parsed: 14
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Parser 'parser': end
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Pipeline 'ingress': start
+[08:37:36.018] [bmv2] [T] [thread 65431] [4.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Pipeline 'ingress': end
+[08:37:36.018] [bmv2] [D] [thread 65431] [4.0] [cxt 0] Egress port is 0
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Processing packet received on port 2
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Parser 'parser': start
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Extracting header 'ethernet'
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:36.018] [bmv2] [T] [thread 65431] [5.0] [cxt 0] Bytes parsed: 14
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Parser 'parser': end
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Pipeline 'ingress': start
+[08:37:36.018] [bmv2] [T] [thread 65431] [5.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Pipeline 'ingress': end
+[08:37:36.018] [bmv2] [D] [thread 65431] [5.0] [cxt 0] Egress port is 0
+[08:37:36.019] [bmv2] [D] [thread 65432] [3.0] [cxt 0] Pipeline 'egress': start
+[08:37:36.019] [bmv2] [T] [thread 65432] [3.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:36.019] [bmv2] [D] [thread 65432] [3.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:36.019] [bmv2] [D] [thread 65432] [3.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:36.019] [bmv2] [D] [thread 65432] [3.0] [cxt 0] Action entry is NoAction - 
+[08:37:36.019] [bmv2] [T] [thread 65432] [3.0] [cxt 0] Action NoAction
+[08:37:36.019] [bmv2] [D] [thread 65432] [3.0] [cxt 0] Pipeline 'egress': end
+[08:37:36.019] [bmv2] [D] [thread 65432] [3.0] [cxt 0] Deparser 'deparser': start
+[08:37:36.019] [bmv2] [T] [thread 65432] [3.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:36.019] [bmv2] [D] [thread 65432] [3.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:36.019] [bmv2] [D] [thread 65432] [3.0] [cxt 0] Deparser 'deparser': end
+[08:37:36.019] [bmv2] [D] [thread 65432] [4.0] [cxt 0] Pipeline 'egress': start
+[08:37:36.019] [bmv2] [T] [thread 65432] [4.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:36.019] [bmv2] [D] [thread 65432] [4.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:36.019] [bmv2] [D] [thread 65432] [4.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:36.019] [bmv2] [D] [thread 65432] [4.0] [cxt 0] Action entry is NoAction - 
+[08:37:36.019] [bmv2] [T] [thread 65432] [4.0] [cxt 0] Action NoAction
+[08:37:36.019] [bmv2] [D] [thread 65432] [4.0] [cxt 0] Pipeline 'egress': end
+[08:37:36.019] [bmv2] [D] [thread 65432] [4.0] [cxt 0] Deparser 'deparser': start
+[08:37:36.019] [bmv2] [T] [thread 65432] [4.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:36.019] [bmv2] [D] [thread 65432] [4.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:36.019] [bmv2] [D] [thread 65432] [4.0] [cxt 0] Deparser 'deparser': end
+[08:37:36.019] [bmv2] [D] [thread 65432] [5.0] [cxt 0] Pipeline 'egress': start
+[08:37:36.019] [bmv2] [T] [thread 65432] [5.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:36.019] [bmv2] [D] [thread 65432] [5.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:36.019] [bmv2] [D] [thread 65432] [5.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:36.019] [bmv2] [D] [thread 65432] [5.0] [cxt 0] Action entry is NoAction - 
+[08:37:36.019] [bmv2] [T] [thread 65432] [5.0] [cxt 0] Action NoAction
+[08:37:36.019] [bmv2] [D] [thread 65432] [5.0] [cxt 0] Pipeline 'egress': end
+[08:37:36.019] [bmv2] [D] [thread 65432] [5.0] [cxt 0] Deparser 'deparser': start
+[08:37:36.019] [bmv2] [T] [thread 65432] [5.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:36.019] [bmv2] [D] [thread 65432] [5.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:36.019] [bmv2] [D] [thread 65432] [5.0] [cxt 0] Deparser 'deparser': end
+[08:37:36.021] [bmv2] [D] [thread 65436] [3.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:36.021] [bmv2] [D] [thread 65436] [4.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:36.021] [bmv2] [D] [thread 65436] [5.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Processing packet received on port 1
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Parser 'parser': start
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Extracting header 'ethernet'
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:43.697] [bmv2] [T] [thread 65431] [6.0] [cxt 0] Bytes parsed: 14
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Parser 'parser': end
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Pipeline 'ingress': start
+[08:37:43.697] [bmv2] [T] [thread 65431] [6.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Pipeline 'ingress': end
+[08:37:43.697] [bmv2] [D] [thread 65431] [6.0] [cxt 0] Egress port is 0
+[08:37:43.697] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Processing packet received on port 3
+[08:37:43.697] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Parser 'parser': start
+[08:37:43.697] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:43.697] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Extracting header 'ethernet'
+[08:37:43.697] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:43.697] [bmv2] [T] [thread 65431] [7.0] [cxt 0] Bytes parsed: 14
+[08:37:43.697] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Parser 'parser': end
+[08:37:43.697] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Pipeline 'ingress': start
+[08:37:43.697] [bmv2] [T] [thread 65431] [7.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:43.697] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Pipeline 'ingress': end
+[08:37:43.698] [bmv2] [D] [thread 65431] [7.0] [cxt 0] Egress port is 0
+[08:37:43.698] [bmv2] [D] [thread 65432] [6.0] [cxt 0] Pipeline 'egress': start
+[08:37:43.698] [bmv2] [T] [thread 65432] [6.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:43.698] [bmv2] [D] [thread 65432] [6.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:43.698] [bmv2] [D] [thread 65432] [6.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:43.698] [bmv2] [D] [thread 65432] [6.0] [cxt 0] Action entry is NoAction - 
+[08:37:43.699] [bmv2] [T] [thread 65432] [6.0] [cxt 0] Action NoAction
+[08:37:43.699] [bmv2] [D] [thread 65432] [6.0] [cxt 0] Pipeline 'egress': end
+[08:37:43.699] [bmv2] [D] [thread 65432] [6.0] [cxt 0] Deparser 'deparser': start
+[08:37:43.699] [bmv2] [T] [thread 65432] [6.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:43.699] [bmv2] [D] [thread 65432] [6.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:43.699] [bmv2] [D] [thread 65432] [6.0] [cxt 0] Deparser 'deparser': end
+[08:37:43.699] [bmv2] [D] [thread 65432] [7.0] [cxt 0] Pipeline 'egress': start
+[08:37:43.699] [bmv2] [T] [thread 65432] [7.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:43.699] [bmv2] [D] [thread 65432] [7.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:43.699] [bmv2] [D] [thread 65432] [7.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:43.699] [bmv2] [D] [thread 65432] [7.0] [cxt 0] Action entry is NoAction - 
+[08:37:43.699] [bmv2] [T] [thread 65432] [7.0] [cxt 0] Action NoAction
+[08:37:43.699] [bmv2] [D] [thread 65432] [7.0] [cxt 0] Pipeline 'egress': end
+[08:37:43.699] [bmv2] [D] [thread 65432] [7.0] [cxt 0] Deparser 'deparser': start
+[08:37:43.699] [bmv2] [T] [thread 65432] [7.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:43.699] [bmv2] [D] [thread 65432] [7.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:43.699] [bmv2] [D] [thread 65432] [7.0] [cxt 0] Deparser 'deparser': end
+[08:37:43.700] [bmv2] [D] [thread 65436] [6.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:43.700] [bmv2] [D] [thread 65436] [7.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Processing packet received on port 2
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Parser 'parser': start
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Extracting header 'ethernet'
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:44.211] [bmv2] [T] [thread 65431] [8.0] [cxt 0] Bytes parsed: 14
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Parser 'parser': end
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Pipeline 'ingress': start
+[08:37:44.211] [bmv2] [T] [thread 65431] [8.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Pipeline 'ingress': end
+[08:37:44.211] [bmv2] [D] [thread 65431] [8.0] [cxt 0] Egress port is 0
+[08:37:44.211] [bmv2] [D] [thread 65432] [8.0] [cxt 0] Pipeline 'egress': start
+[08:37:44.212] [bmv2] [T] [thread 65432] [8.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:44.212] [bmv2] [D] [thread 65432] [8.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:44.212] [bmv2] [D] [thread 65432] [8.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:44.212] [bmv2] [D] [thread 65432] [8.0] [cxt 0] Action entry is NoAction - 
+[08:37:44.212] [bmv2] [T] [thread 65432] [8.0] [cxt 0] Action NoAction
+[08:37:44.212] [bmv2] [D] [thread 65432] [8.0] [cxt 0] Pipeline 'egress': end
+[08:37:44.212] [bmv2] [D] [thread 65432] [8.0] [cxt 0] Deparser 'deparser': start
+[08:37:44.212] [bmv2] [T] [thread 65432] [8.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:44.212] [bmv2] [D] [thread 65432] [8.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:44.212] [bmv2] [D] [thread 65432] [8.0] [cxt 0] Deparser 'deparser': end
+[08:37:44.212] [bmv2] [D] [thread 65436] [8.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Processing packet received on port 2
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Parser 'parser': start
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Extracting header 'ethernet'
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:44.721] [bmv2] [T] [thread 65431] [9.0] [cxt 0] Bytes parsed: 14
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Parser 'parser': end
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Pipeline 'ingress': start
+[08:37:44.721] [bmv2] [T] [thread 65431] [9.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Pipeline 'ingress': end
+[08:37:44.721] [bmv2] [D] [thread 65431] [9.0] [cxt 0] Egress port is 0
+[08:37:44.722] [bmv2] [D] [thread 65432] [9.0] [cxt 0] Pipeline 'egress': start
+[08:37:44.722] [bmv2] [T] [thread 65432] [9.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:44.722] [bmv2] [D] [thread 65432] [9.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:44.722] [bmv2] [D] [thread 65432] [9.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:44.722] [bmv2] [D] [thread 65432] [9.0] [cxt 0] Action entry is NoAction - 
+[08:37:44.722] [bmv2] [T] [thread 65432] [9.0] [cxt 0] Action NoAction
+[08:37:44.722] [bmv2] [D] [thread 65432] [9.0] [cxt 0] Pipeline 'egress': end
+[08:37:44.722] [bmv2] [D] [thread 65432] [9.0] [cxt 0] Deparser 'deparser': start
+[08:37:44.722] [bmv2] [T] [thread 65432] [9.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:44.722] [bmv2] [D] [thread 65432] [9.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:44.722] [bmv2] [D] [thread 65432] [9.0] [cxt 0] Deparser 'deparser': end
+[08:37:44.723] [bmv2] [D] [thread 65436] [9.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Processing packet received on port 3
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Parser 'parser': start
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Extracting header 'ethernet'
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:45.233] [bmv2] [T] [thread 65431] [10.0] [cxt 0] Bytes parsed: 14
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Parser 'parser': end
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Pipeline 'ingress': start
+[08:37:45.233] [bmv2] [T] [thread 65431] [10.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Pipeline 'ingress': end
+[08:37:45.233] [bmv2] [D] [thread 65431] [10.0] [cxt 0] Egress port is 0
+[08:37:45.233] [bmv2] [D] [thread 65432] [10.0] [cxt 0] Pipeline 'egress': start
+[08:37:45.233] [bmv2] [T] [thread 65432] [10.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:45.233] [bmv2] [D] [thread 65432] [10.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:45.233] [bmv2] [D] [thread 65432] [10.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:45.233] [bmv2] [D] [thread 65432] [10.0] [cxt 0] Action entry is NoAction - 
+[08:37:45.233] [bmv2] [T] [thread 65432] [10.0] [cxt 0] Action NoAction
+[08:37:45.233] [bmv2] [D] [thread 65432] [10.0] [cxt 0] Pipeline 'egress': end
+[08:37:45.233] [bmv2] [D] [thread 65432] [10.0] [cxt 0] Deparser 'deparser': start
+[08:37:45.233] [bmv2] [T] [thread 65432] [10.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:45.234] [bmv2] [D] [thread 65432] [10.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:45.234] [bmv2] [D] [thread 65432] [10.0] [cxt 0] Deparser 'deparser': end
+[08:37:45.234] [bmv2] [D] [thread 65436] [10.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Processing packet received on port 1
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Parser 'parser': start
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Extracting header 'ethernet'
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:59.825] [bmv2] [T] [thread 65431] [11.0] [cxt 0] Bytes parsed: 14
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Parser 'parser': end
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Pipeline 'ingress': start
+[08:37:59.825] [bmv2] [T] [thread 65431] [11.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Pipeline 'ingress': end
+[08:37:59.825] [bmv2] [D] [thread 65431] [11.0] [cxt 0] Egress port is 0
+[08:37:59.825] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Processing packet received on port 3
+[08:37:59.825] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Parser 'parser': start
+[08:37:59.825] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:37:59.825] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Extracting header 'ethernet'
+[08:37:59.825] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Parser state 'start': key is 86dd
+[08:37:59.826] [bmv2] [T] [thread 65431] [12.0] [cxt 0] Bytes parsed: 14
+[08:37:59.826] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Parser 'parser': end
+[08:37:59.826] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Pipeline 'ingress': start
+[08:37:59.826] [bmv2] [T] [thread 65431] [12.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:37:59.826] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Pipeline 'ingress': end
+[08:37:59.826] [bmv2] [D] [thread 65431] [12.0] [cxt 0] Egress port is 0
+[08:37:59.826] [bmv2] [D] [thread 65432] [11.0] [cxt 0] Pipeline 'egress': start
+[08:37:59.826] [bmv2] [T] [thread 65432] [11.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:59.826] [bmv2] [D] [thread 65432] [11.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:59.826] [bmv2] [D] [thread 65432] [11.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:59.826] [bmv2] [D] [thread 65432] [11.0] [cxt 0] Action entry is NoAction - 
+[08:37:59.826] [bmv2] [T] [thread 65432] [11.0] [cxt 0] Action NoAction
+[08:37:59.826] [bmv2] [D] [thread 65432] [11.0] [cxt 0] Pipeline 'egress': end
+[08:37:59.826] [bmv2] [D] [thread 65432] [11.0] [cxt 0] Deparser 'deparser': start
+[08:37:59.826] [bmv2] [T] [thread 65432] [11.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:59.826] [bmv2] [D] [thread 65432] [11.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:59.826] [bmv2] [D] [thread 65432] [11.0] [cxt 0] Deparser 'deparser': end
+[08:37:59.826] [bmv2] [D] [thread 65432] [12.0] [cxt 0] Pipeline 'egress': start
+[08:37:59.826] [bmv2] [T] [thread 65432] [12.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:37:59.826] [bmv2] [D] [thread 65432] [12.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:37:59.826] [bmv2] [D] [thread 65432] [12.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:37:59.827] [bmv2] [D] [thread 65432] [12.0] [cxt 0] Action entry is NoAction - 
+[08:37:59.827] [bmv2] [T] [thread 65432] [12.0] [cxt 0] Action NoAction
+[08:37:59.827] [bmv2] [D] [thread 65432] [12.0] [cxt 0] Pipeline 'egress': end
+[08:37:59.827] [bmv2] [D] [thread 65432] [12.0] [cxt 0] Deparser 'deparser': start
+[08:37:59.827] [bmv2] [T] [thread 65432] [12.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:37:59.827] [bmv2] [D] [thread 65432] [12.0] [cxt 0] Deparsing header 'ethernet'
+[08:37:59.827] [bmv2] [D] [thread 65432] [12.0] [cxt 0] Deparser 'deparser': end
+[08:37:59.827] [bmv2] [D] [thread 65436] [11.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:37:59.827] [bmv2] [D] [thread 65436] [12.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Processing packet received on port 2
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Parser 'parser': start
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Extracting header 'ethernet'
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Parser state 'start': key is 86dd
+[08:38:01.873] [bmv2] [T] [thread 65431] [13.0] [cxt 0] Bytes parsed: 14
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Parser 'parser': end
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Pipeline 'ingress': start
+[08:38:01.873] [bmv2] [T] [thread 65431] [13.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Pipeline 'ingress': end
+[08:38:01.873] [bmv2] [D] [thread 65431] [13.0] [cxt 0] Egress port is 0
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Processing packet received on port 2
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Parser 'parser': start
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Extracting header 'ethernet'
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Parser state 'start': key is 86dd
+[08:38:01.873] [bmv2] [T] [thread 65431] [14.0] [cxt 0] Bytes parsed: 14
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Parser 'parser': end
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Pipeline 'ingress': start
+[08:38:01.873] [bmv2] [T] [thread 65431] [14.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Pipeline 'ingress': end
+[08:38:01.873] [bmv2] [D] [thread 65431] [14.0] [cxt 0] Egress port is 0
+[08:38:01.873] [bmv2] [D] [thread 65432] [13.0] [cxt 0] Pipeline 'egress': start
+[08:38:01.873] [bmv2] [T] [thread 65432] [13.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:01.873] [bmv2] [D] [thread 65432] [13.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:38:01.873] [bmv2] [D] [thread 65432] [13.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:38:01.873] [bmv2] [D] [thread 65432] [13.0] [cxt 0] Action entry is NoAction - 
+[08:38:01.873] [bmv2] [T] [thread 65432] [13.0] [cxt 0] Action NoAction
+[08:38:01.873] [bmv2] [D] [thread 65432] [13.0] [cxt 0] Pipeline 'egress': end
+[08:38:01.873] [bmv2] [D] [thread 65432] [13.0] [cxt 0] Deparser 'deparser': start
+[08:38:01.873] [bmv2] [T] [thread 65432] [13.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:38:01.873] [bmv2] [D] [thread 65432] [13.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:01.873] [bmv2] [D] [thread 65432] [13.0] [cxt 0] Deparser 'deparser': end
+[08:38:01.874] [bmv2] [D] [thread 65432] [14.0] [cxt 0] Pipeline 'egress': start
+[08:38:01.874] [bmv2] [T] [thread 65432] [14.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:01.874] [bmv2] [D] [thread 65432] [14.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:38:01.874] [bmv2] [D] [thread 65432] [14.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:38:01.874] [bmv2] [D] [thread 65432] [14.0] [cxt 0] Action entry is NoAction - 
+[08:38:01.874] [bmv2] [T] [thread 65432] [14.0] [cxt 0] Action NoAction
+[08:38:01.874] [bmv2] [D] [thread 65432] [14.0] [cxt 0] Pipeline 'egress': end
+[08:38:01.874] [bmv2] [D] [thread 65432] [14.0] [cxt 0] Deparser 'deparser': start
+[08:38:01.874] [bmv2] [T] [thread 65432] [14.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:38:01.874] [bmv2] [D] [thread 65432] [14.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:01.874] [bmv2] [D] [thread 65432] [14.0] [cxt 0] Deparser 'deparser': end
+[08:38:01.874] [bmv2] [D] [thread 65436] [13.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:38:01.874] [bmv2] [D] [thread 65436] [14.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Processing packet received on port 3
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Parser 'parser': start
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Extracting header 'ethernet'
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Parser state 'start': key is 86dd
+[08:38:03.924] [bmv2] [T] [thread 65431] [15.0] [cxt 0] Bytes parsed: 14
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Parser 'parser': end
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Pipeline 'ingress': start
+[08:38:03.924] [bmv2] [T] [thread 65431] [15.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Pipeline 'ingress': end
+[08:38:03.924] [bmv2] [D] [thread 65431] [15.0] [cxt 0] Egress port is 0
+[08:38:03.924] [bmv2] [D] [thread 65432] [15.0] [cxt 0] Pipeline 'egress': start
+[08:38:03.924] [bmv2] [T] [thread 65432] [15.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:03.924] [bmv2] [D] [thread 65432] [15.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:38:03.924] [bmv2] [D] [thread 65432] [15.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:38:03.924] [bmv2] [D] [thread 65432] [15.0] [cxt 0] Action entry is NoAction - 
+[08:38:03.924] [bmv2] [T] [thread 65432] [15.0] [cxt 0] Action NoAction
+[08:38:03.924] [bmv2] [D] [thread 65432] [15.0] [cxt 0] Pipeline 'egress': end
+[08:38:03.924] [bmv2] [D] [thread 65432] [15.0] [cxt 0] Deparser 'deparser': start
+[08:38:03.924] [bmv2] [T] [thread 65432] [15.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:38:03.924] [bmv2] [D] [thread 65432] [15.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:03.924] [bmv2] [D] [thread 65432] [15.0] [cxt 0] Deparser 'deparser': end
+[08:38:03.924] [bmv2] [D] [thread 65436] [15.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:38:13.737] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Processing packet received on port 2
+[08:38:13.737] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Parser 'parser': start
+[08:38:13.737] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:13.737] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Extracting header 'ethernet'
+[08:38:13.737] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Parser state 'start': key is 0800
+[08:38:13.737] [bmv2] [T] [thread 65431] [16.0] [cxt 0] Bytes parsed: 14
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Extracting header 'ipv4'
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Parser state 'parse_ipv4': key is 06
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] Bytes parsed: 34
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Parser 'parser' entering state 'parse_tcp'
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Extracting header 'tcp'
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Parser state 'parse_tcp' has no switch, going to default next state
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] Bytes parsed: 54
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Parser 'parser': end
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Pipeline 'ingress': start
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is true
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] Applying table 'MyIngress.ecmp_group'
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Looking up key:
+* hdr.ipv4.dstAddr    : 0a000303
+
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Table 'MyIngress.ecmp_group': hit with handle 0
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Dumping entry 0
+Match key:
+* hdr.ipv4.dstAddr    : LPM       0a000303/32
+Action entry: MyIngress.set_mp_select - 0,1,
+
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Action entry is MyIngress.set_mp_select - 0,1,
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] Action MyIngress.set_mp_select
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(119) Primitive hdr.ipv4.srcAddr
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(120) Primitive hdr.ipv4.dstAddr
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(121) Primitive hdr.ipv4.protocol
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(122) Primitive hdr.tcp.srcPort
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(123) Primitive hdr.tcp.dstPort
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(115) Primitive hash( ...
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] hash(base=0, max=1) = 0
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] Applying table 'MyIngress.ecmp_nhop'
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Looking up key:
+* meta.mp_select      : 0000
+
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Table 'MyIngress.ecmp_nhop': hit with handle 0
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Dumping entry 0
+Match key:
+* meta.mp_select      : EXACT     0000
+Action entry: MyIngress.set_nhop - 80000000303,a000303,1,
+
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Action entry is MyIngress.set_nhop - 80000000303,a000303,1,
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] Action MyIngress.set_nhop
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(137) Primitive hdr.ethernet.dstAddr = nhop_dmac
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(138) Primitive hdr.ipv4.dstAddr = nhop_ipv4
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(139) Primitive standard_metadata.egress_spec = port
+[08:38:13.738] [bmv2] [T] [thread 65431] [16.0] [cxt 0] load_balance.p4(140) Primitive hdr.ipv4.ttl = hdr.ipv4.ttl - 1
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Pipeline 'ingress': end
+[08:38:13.738] [bmv2] [D] [thread 65431] [16.0] [cxt 0] Egress port is 1
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Pipeline 'egress': start
+[08:38:13.738] [bmv2] [T] [thread 65433] [16.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0001
+
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Table 'MyEgress.send_frame': hit with handle 0
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.egress_port: EXACT     0001
+Action entry: MyEgress.rewrite_mac - 80000000300,
+
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Action entry is MyEgress.rewrite_mac - 80000000300,
+[08:38:13.738] [bmv2] [T] [thread 65433] [16.0] [cxt 0] Action MyEgress.rewrite_mac
+[08:38:13.738] [bmv2] [T] [thread 65433] [16.0] [cxt 0] load_balance.p4(179) Primitive hdr.ethernet.srcAddr = smac
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Pipeline 'egress': end
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Deparser 'deparser': start
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Updating checksum 'cksum'
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:13.738] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Deparsing header 'ipv4'
+[08:38:13.739] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Deparsing header 'tcp'
+[08:38:13.739] [bmv2] [D] [thread 65433] [16.0] [cxt 0] Deparser 'deparser': end
+[08:38:13.739] [bmv2] [D] [thread 65436] [16.0] [cxt 0] Transmitting packet of size 60 out of port 1
+[08:38:17.859] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Processing packet received on port 2
+[08:38:17.859] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Parser 'parser': start
+[08:38:17.859] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:17.859] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Extracting header 'ethernet'
+[08:38:17.859] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Parser state 'start': key is 0800
+[08:38:17.859] [bmv2] [T] [thread 65431] [17.0] [cxt 0] Bytes parsed: 14
+[08:38:17.859] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[08:38:17.859] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Extracting header 'ipv4'
+[08:38:17.859] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Parser state 'parse_ipv4': key is 06
+[08:38:17.859] [bmv2] [T] [thread 65431] [17.0] [cxt 0] Bytes parsed: 34
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Parser 'parser' entering state 'parse_tcp'
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Extracting header 'tcp'
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Parser state 'parse_tcp' has no switch, going to default next state
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] Bytes parsed: 54
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Parser 'parser': end
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Pipeline 'ingress': start
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is true
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] Applying table 'MyIngress.ecmp_group'
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Looking up key:
+* hdr.ipv4.dstAddr    : 0a000303
+
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Table 'MyIngress.ecmp_group': hit with handle 0
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Dumping entry 0
+Match key:
+* hdr.ipv4.dstAddr    : LPM       0a000303/32
+Action entry: MyIngress.set_mp_select - 0,1,
+
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Action entry is MyIngress.set_mp_select - 0,1,
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] Action MyIngress.set_mp_select
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(119) Primitive hdr.ipv4.srcAddr
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(120) Primitive hdr.ipv4.dstAddr
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(121) Primitive hdr.ipv4.protocol
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(122) Primitive hdr.tcp.srcPort
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(123) Primitive hdr.tcp.dstPort
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(115) Primitive hash( ...
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] hash(base=0, max=1) = 0
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] Applying table 'MyIngress.ecmp_nhop'
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Looking up key:
+* meta.mp_select      : 0000
+
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Table 'MyIngress.ecmp_nhop': hit with handle 0
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Dumping entry 0
+Match key:
+* meta.mp_select      : EXACT     0000
+Action entry: MyIngress.set_nhop - 80000000303,a000303,1,
+
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Action entry is MyIngress.set_nhop - 80000000303,a000303,1,
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] Action MyIngress.set_nhop
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(137) Primitive hdr.ethernet.dstAddr = nhop_dmac
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(138) Primitive hdr.ipv4.dstAddr = nhop_ipv4
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(139) Primitive standard_metadata.egress_spec = port
+[08:38:17.860] [bmv2] [T] [thread 65431] [17.0] [cxt 0] load_balance.p4(140) Primitive hdr.ipv4.ttl = hdr.ipv4.ttl - 1
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Pipeline 'ingress': end
+[08:38:17.860] [bmv2] [D] [thread 65431] [17.0] [cxt 0] Egress port is 1
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Pipeline 'egress': start
+[08:38:17.860] [bmv2] [T] [thread 65433] [17.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0001
+
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Table 'MyEgress.send_frame': hit with handle 0
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.egress_port: EXACT     0001
+Action entry: MyEgress.rewrite_mac - 80000000300,
+
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Action entry is MyEgress.rewrite_mac - 80000000300,
+[08:38:17.860] [bmv2] [T] [thread 65433] [17.0] [cxt 0] Action MyEgress.rewrite_mac
+[08:38:17.860] [bmv2] [T] [thread 65433] [17.0] [cxt 0] load_balance.p4(179) Primitive hdr.ethernet.srcAddr = smac
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Pipeline 'egress': end
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Deparser 'deparser': start
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Updating checksum 'cksum'
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Deparsing header 'ipv4'
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Deparsing header 'tcp'
+[08:38:17.860] [bmv2] [D] [thread 65433] [17.0] [cxt 0] Deparser 'deparser': end
+[08:38:17.860] [bmv2] [D] [thread 65436] [17.0] [cxt 0] Transmitting packet of size 60 out of port 1
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Processing packet received on port 2
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Parser 'parser': start
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Extracting header 'ethernet'
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Parser state 'start': key is 0800
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] Bytes parsed: 14
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Extracting header 'ipv4'
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Parser state 'parse_ipv4': key is 06
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] Bytes parsed: 34
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Parser 'parser' entering state 'parse_tcp'
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Extracting header 'tcp'
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Parser state 'parse_tcp' has no switch, going to default next state
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] Bytes parsed: 54
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Parser 'parser': end
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Pipeline 'ingress': start
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is true
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] Applying table 'MyIngress.ecmp_group'
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Looking up key:
+* hdr.ipv4.dstAddr    : 0a000303
+
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Table 'MyIngress.ecmp_group': hit with handle 0
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Dumping entry 0
+Match key:
+* hdr.ipv4.dstAddr    : LPM       0a000303/32
+Action entry: MyIngress.set_mp_select - 0,1,
+
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Action entry is MyIngress.set_mp_select - 0,1,
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] Action MyIngress.set_mp_select
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(119) Primitive hdr.ipv4.srcAddr
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(120) Primitive hdr.ipv4.dstAddr
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(121) Primitive hdr.ipv4.protocol
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(122) Primitive hdr.tcp.srcPort
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(123) Primitive hdr.tcp.dstPort
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(115) Primitive hash( ...
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] hash(base=0, max=1) = 0
+[08:38:19.369] [bmv2] [T] [thread 65431] [18.0] [cxt 0] Applying table 'MyIngress.ecmp_nhop'
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Looking up key:
+* meta.mp_select      : 0000
+
+[08:38:19.369] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Table 'MyIngress.ecmp_nhop': hit with handle 0
+[08:38:19.370] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Dumping entry 0
+Match key:
+* meta.mp_select      : EXACT     0000
+Action entry: MyIngress.set_nhop - 80000000303,a000303,1,
+
+[08:38:19.370] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Action entry is MyIngress.set_nhop - 80000000303,a000303,1,
+[08:38:19.370] [bmv2] [T] [thread 65431] [18.0] [cxt 0] Action MyIngress.set_nhop
+[08:38:19.370] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(137) Primitive hdr.ethernet.dstAddr = nhop_dmac
+[08:38:19.370] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(138) Primitive hdr.ipv4.dstAddr = nhop_ipv4
+[08:38:19.370] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(139) Primitive standard_metadata.egress_spec = port
+[08:38:19.370] [bmv2] [T] [thread 65431] [18.0] [cxt 0] load_balance.p4(140) Primitive hdr.ipv4.ttl = hdr.ipv4.ttl - 1
+[08:38:19.370] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Pipeline 'ingress': end
+[08:38:19.370] [bmv2] [D] [thread 65431] [18.0] [cxt 0] Egress port is 1
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Pipeline 'egress': start
+[08:38:19.370] [bmv2] [T] [thread 65433] [18.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0001
+
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Table 'MyEgress.send_frame': hit with handle 0
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.egress_port: EXACT     0001
+Action entry: MyEgress.rewrite_mac - 80000000300,
+
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Action entry is MyEgress.rewrite_mac - 80000000300,
+[08:38:19.370] [bmv2] [T] [thread 65433] [18.0] [cxt 0] Action MyEgress.rewrite_mac
+[08:38:19.370] [bmv2] [T] [thread 65433] [18.0] [cxt 0] load_balance.p4(179) Primitive hdr.ethernet.srcAddr = smac
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Pipeline 'egress': end
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Deparser 'deparser': start
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Updating checksum 'cksum'
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Deparsing header 'ipv4'
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Deparsing header 'tcp'
+[08:38:19.370] [bmv2] [D] [thread 65433] [18.0] [cxt 0] Deparser 'deparser': end
+[08:38:19.370] [bmv2] [D] [thread 65436] [18.0] [cxt 0] Transmitting packet of size 60 out of port 1
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Processing packet received on port 2
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Parser 'parser': start
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Extracting header 'ethernet'
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Parser state 'start': key is 0800
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] Bytes parsed: 14
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Extracting header 'ipv4'
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Parser state 'parse_ipv4': key is 06
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] Bytes parsed: 34
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Parser 'parser' entering state 'parse_tcp'
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Extracting header 'tcp'
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Parser state 'parse_tcp' has no switch, going to default next state
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] Bytes parsed: 54
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Parser 'parser': end
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Pipeline 'ingress': start
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is true
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] Applying table 'MyIngress.ecmp_group'
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Looking up key:
+* hdr.ipv4.dstAddr    : 0a000303
+
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Table 'MyIngress.ecmp_group': hit with handle 0
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Dumping entry 0
+Match key:
+* hdr.ipv4.dstAddr    : LPM       0a000303/32
+Action entry: MyIngress.set_mp_select - 0,1,
+
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Action entry is MyIngress.set_mp_select - 0,1,
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] Action MyIngress.set_mp_select
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(119) Primitive hdr.ipv4.srcAddr
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(120) Primitive hdr.ipv4.dstAddr
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(121) Primitive hdr.ipv4.protocol
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(122) Primitive hdr.tcp.srcPort
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(123) Primitive hdr.tcp.dstPort
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(115) Primitive hash( ...
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] hash(base=0, max=1) = 0
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] Applying table 'MyIngress.ecmp_nhop'
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Looking up key:
+* meta.mp_select      : 0000
+
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Table 'MyIngress.ecmp_nhop': hit with handle 0
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Dumping entry 0
+Match key:
+* meta.mp_select      : EXACT     0000
+Action entry: MyIngress.set_nhop - 80000000303,a000303,1,
+
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Action entry is MyIngress.set_nhop - 80000000303,a000303,1,
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] Action MyIngress.set_nhop
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(137) Primitive hdr.ethernet.dstAddr = nhop_dmac
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(138) Primitive hdr.ipv4.dstAddr = nhop_ipv4
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(139) Primitive standard_metadata.egress_spec = port
+[08:38:20.816] [bmv2] [T] [thread 65431] [19.0] [cxt 0] load_balance.p4(140) Primitive hdr.ipv4.ttl = hdr.ipv4.ttl - 1
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Pipeline 'ingress': end
+[08:38:20.816] [bmv2] [D] [thread 65431] [19.0] [cxt 0] Egress port is 1
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Pipeline 'egress': start
+[08:38:20.816] [bmv2] [T] [thread 65433] [19.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0001
+
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Table 'MyEgress.send_frame': hit with handle 0
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.egress_port: EXACT     0001
+Action entry: MyEgress.rewrite_mac - 80000000300,
+
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Action entry is MyEgress.rewrite_mac - 80000000300,
+[08:38:20.816] [bmv2] [T] [thread 65433] [19.0] [cxt 0] Action MyEgress.rewrite_mac
+[08:38:20.816] [bmv2] [T] [thread 65433] [19.0] [cxt 0] load_balance.p4(179) Primitive hdr.ethernet.srcAddr = smac
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Pipeline 'egress': end
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Deparser 'deparser': start
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Updating checksum 'cksum'
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Deparsing header 'ipv4'
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Deparsing header 'tcp'
+[08:38:20.816] [bmv2] [D] [thread 65433] [19.0] [cxt 0] Deparser 'deparser': end
+[08:38:20.816] [bmv2] [D] [thread 65436] [19.0] [cxt 0] Transmitting packet of size 60 out of port 1
+[08:38:22.111] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Processing packet received on port 2
+[08:38:22.111] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Parser 'parser': start
+[08:38:22.111] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:22.111] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Extracting header 'ethernet'
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Parser state 'start': key is 0800
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] Bytes parsed: 14
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Extracting header 'ipv4'
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Parser state 'parse_ipv4': key is 06
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] Bytes parsed: 34
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Parser 'parser' entering state 'parse_tcp'
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Extracting header 'tcp'
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Parser state 'parse_tcp' has no switch, going to default next state
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] Bytes parsed: 54
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Parser 'parser': end
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Pipeline 'ingress': start
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is true
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] Applying table 'MyIngress.ecmp_group'
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Looking up key:
+* hdr.ipv4.dstAddr    : 0a000303
+
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Table 'MyIngress.ecmp_group': hit with handle 0
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Dumping entry 0
+Match key:
+* hdr.ipv4.dstAddr    : LPM       0a000303/32
+Action entry: MyIngress.set_mp_select - 0,1,
+
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Action entry is MyIngress.set_mp_select - 0,1,
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] Action MyIngress.set_mp_select
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(119) Primitive hdr.ipv4.srcAddr
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(120) Primitive hdr.ipv4.dstAddr
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(121) Primitive hdr.ipv4.protocol
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(122) Primitive hdr.tcp.srcPort
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(123) Primitive hdr.tcp.dstPort
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(115) Primitive hash( ...
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] hash(base=0, max=1) = 0
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] Applying table 'MyIngress.ecmp_nhop'
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Looking up key:
+* meta.mp_select      : 0000
+
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Table 'MyIngress.ecmp_nhop': hit with handle 0
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Dumping entry 0
+Match key:
+* meta.mp_select      : EXACT     0000
+Action entry: MyIngress.set_nhop - 80000000303,a000303,1,
+
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Action entry is MyIngress.set_nhop - 80000000303,a000303,1,
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] Action MyIngress.set_nhop
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(137) Primitive hdr.ethernet.dstAddr = nhop_dmac
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(138) Primitive hdr.ipv4.dstAddr = nhop_ipv4
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(139) Primitive standard_metadata.egress_spec = port
+[08:38:22.112] [bmv2] [T] [thread 65431] [20.0] [cxt 0] load_balance.p4(140) Primitive hdr.ipv4.ttl = hdr.ipv4.ttl - 1
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Pipeline 'ingress': end
+[08:38:22.112] [bmv2] [D] [thread 65431] [20.0] [cxt 0] Egress port is 1
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Pipeline 'egress': start
+[08:38:22.112] [bmv2] [T] [thread 65433] [20.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0001
+
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Table 'MyEgress.send_frame': hit with handle 0
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.egress_port: EXACT     0001
+Action entry: MyEgress.rewrite_mac - 80000000300,
+
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Action entry is MyEgress.rewrite_mac - 80000000300,
+[08:38:22.112] [bmv2] [T] [thread 65433] [20.0] [cxt 0] Action MyEgress.rewrite_mac
+[08:38:22.112] [bmv2] [T] [thread 65433] [20.0] [cxt 0] load_balance.p4(179) Primitive hdr.ethernet.srcAddr = smac
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Pipeline 'egress': end
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Deparser 'deparser': start
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Updating checksum 'cksum'
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Deparsing header 'ipv4'
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Deparsing header 'tcp'
+[08:38:22.112] [bmv2] [D] [thread 65433] [20.0] [cxt 0] Deparser 'deparser': end
+[08:38:22.112] [bmv2] [D] [thread 65436] [20.0] [cxt 0] Transmitting packet of size 60 out of port 1
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Processing packet received on port 2
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Parser 'parser': start
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Extracting header 'ethernet'
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Parser state 'start': key is 0800
+[08:38:25.038] [bmv2] [T] [thread 65431] [21.0] [cxt 0] Bytes parsed: 14
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Extracting header 'ipv4'
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Parser state 'parse_ipv4': key is 06
+[08:38:25.038] [bmv2] [T] [thread 65431] [21.0] [cxt 0] Bytes parsed: 34
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Parser 'parser' entering state 'parse_tcp'
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Extracting header 'tcp'
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Parser state 'parse_tcp' has no switch, going to default next state
+[08:38:25.038] [bmv2] [T] [thread 65431] [21.0] [cxt 0] Bytes parsed: 54
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Parser 'parser': end
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Pipeline 'ingress': start
+[08:38:25.038] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is true
+[08:38:25.038] [bmv2] [T] [thread 65431] [21.0] [cxt 0] Applying table 'MyIngress.ecmp_group'
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Looking up key:
+* hdr.ipv4.dstAddr    : 0a000303
+
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Table 'MyIngress.ecmp_group': hit with handle 0
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Dumping entry 0
+Match key:
+* hdr.ipv4.dstAddr    : LPM       0a000303/32
+Action entry: MyIngress.set_mp_select - 0,1,
+
+[08:38:25.038] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Action entry is MyIngress.set_mp_select - 0,1,
+[08:38:25.038] [bmv2] [T] [thread 65431] [21.0] [cxt 0] Action MyIngress.set_mp_select
+[08:38:25.038] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(119) Primitive hdr.ipv4.srcAddr
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(120) Primitive hdr.ipv4.dstAddr
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(121) Primitive hdr.ipv4.protocol
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(122) Primitive hdr.tcp.srcPort
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(123) Primitive hdr.tcp.dstPort
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(115) Primitive hash( ...
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] hash(base=0, max=1) = 0
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] Applying table 'MyIngress.ecmp_nhop'
+[08:38:25.039] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Looking up key:
+* meta.mp_select      : 0000
+
+[08:38:25.039] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Table 'MyIngress.ecmp_nhop': hit with handle 0
+[08:38:25.039] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Dumping entry 0
+Match key:
+* meta.mp_select      : EXACT     0000
+Action entry: MyIngress.set_nhop - 80000000303,a000303,1,
+
+[08:38:25.039] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Action entry is MyIngress.set_nhop - 80000000303,a000303,1,
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] Action MyIngress.set_nhop
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(137) Primitive hdr.ethernet.dstAddr = nhop_dmac
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(138) Primitive hdr.ipv4.dstAddr = nhop_ipv4
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(139) Primitive standard_metadata.egress_spec = port
+[08:38:25.039] [bmv2] [T] [thread 65431] [21.0] [cxt 0] load_balance.p4(140) Primitive hdr.ipv4.ttl = hdr.ipv4.ttl - 1
+[08:38:25.039] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Pipeline 'ingress': end
+[08:38:25.039] [bmv2] [D] [thread 65431] [21.0] [cxt 0] Egress port is 1
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Pipeline 'egress': start
+[08:38:25.040] [bmv2] [T] [thread 65433] [21.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0001
+
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Table 'MyEgress.send_frame': hit with handle 0
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.egress_port: EXACT     0001
+Action entry: MyEgress.rewrite_mac - 80000000300,
+
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Action entry is MyEgress.rewrite_mac - 80000000300,
+[08:38:25.040] [bmv2] [T] [thread 65433] [21.0] [cxt 0] Action MyEgress.rewrite_mac
+[08:38:25.040] [bmv2] [T] [thread 65433] [21.0] [cxt 0] load_balance.p4(179) Primitive hdr.ethernet.srcAddr = smac
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Pipeline 'egress': end
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Deparser 'deparser': start
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Updating checksum 'cksum'
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Deparsing header 'ipv4'
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Deparsing header 'tcp'
+[08:38:25.040] [bmv2] [D] [thread 65433] [21.0] [cxt 0] Deparser 'deparser': end
+[08:38:25.040] [bmv2] [D] [thread 65436] [21.0] [cxt 0] Transmitting packet of size 60 out of port 1
+[08:38:26.101] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Processing packet received on port 2
+[08:38:26.101] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Parser 'parser': start
+[08:38:26.101] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:26.101] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Extracting header 'ethernet'
+[08:38:26.101] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Parser state 'start': key is 0800
+[08:38:26.101] [bmv2] [T] [thread 65431] [22.0] [cxt 0] Bytes parsed: 14
+[08:38:26.101] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Parser 'parser' entering state 'parse_ipv4'
+[08:38:26.101] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Extracting header 'ipv4'
+[08:38:26.101] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Parser state 'parse_ipv4': key is 06
+[08:38:26.101] [bmv2] [T] [thread 65431] [22.0] [cxt 0] Bytes parsed: 34
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Parser 'parser' entering state 'parse_tcp'
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Extracting header 'tcp'
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Parser state 'parse_tcp' has no switch, going to default next state
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] Bytes parsed: 54
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Parser 'parser': end
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Pipeline 'ingress': start
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is true
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] Applying table 'MyIngress.ecmp_group'
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Looking up key:
+* hdr.ipv4.dstAddr    : 0a000303
+
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Table 'MyIngress.ecmp_group': hit with handle 0
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Dumping entry 0
+Match key:
+* hdr.ipv4.dstAddr    : LPM       0a000303/32
+Action entry: MyIngress.set_mp_select - 0,1,
+
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Action entry is MyIngress.set_mp_select - 0,1,
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] Action MyIngress.set_mp_select
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(119) Primitive hdr.ipv4.srcAddr
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(120) Primitive hdr.ipv4.dstAddr
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(121) Primitive hdr.ipv4.protocol
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(122) Primitive hdr.tcp.srcPort
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(123) Primitive hdr.tcp.dstPort
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(115) Primitive hash( ...
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] hash(base=0, max=1) = 0
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] Applying table 'MyIngress.ecmp_nhop'
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Looking up key:
+* meta.mp_select      : 0000
+
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Table 'MyIngress.ecmp_nhop': hit with handle 0
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Dumping entry 0
+Match key:
+* meta.mp_select      : EXACT     0000
+Action entry: MyIngress.set_nhop - 80000000303,a000303,1,
+
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Action entry is MyIngress.set_nhop - 80000000303,a000303,1,
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] Action MyIngress.set_nhop
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(137) Primitive hdr.ethernet.dstAddr = nhop_dmac
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(138) Primitive hdr.ipv4.dstAddr = nhop_ipv4
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(139) Primitive standard_metadata.egress_spec = port
+[08:38:26.102] [bmv2] [T] [thread 65431] [22.0] [cxt 0] load_balance.p4(140) Primitive hdr.ipv4.ttl = hdr.ipv4.ttl - 1
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Pipeline 'ingress': end
+[08:38:26.102] [bmv2] [D] [thread 65431] [22.0] [cxt 0] Egress port is 1
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Pipeline 'egress': start
+[08:38:26.103] [bmv2] [T] [thread 65433] [22.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0001
+
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Table 'MyEgress.send_frame': hit with handle 0
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Dumping entry 0
+Match key:
+* standard_metadata.egress_port: EXACT     0001
+Action entry: MyEgress.rewrite_mac - 80000000300,
+
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Action entry is MyEgress.rewrite_mac - 80000000300,
+[08:38:26.103] [bmv2] [T] [thread 65433] [22.0] [cxt 0] Action MyEgress.rewrite_mac
+[08:38:26.103] [bmv2] [T] [thread 65433] [22.0] [cxt 0] load_balance.p4(179) Primitive hdr.ethernet.srcAddr = smac
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Pipeline 'egress': end
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Deparser 'deparser': start
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Updating checksum 'cksum'
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Deparsing header 'ipv4'
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Deparsing header 'tcp'
+[08:38:26.103] [bmv2] [D] [thread 65433] [22.0] [cxt 0] Deparser 'deparser': end
+[08:38:26.103] [bmv2] [D] [thread 65436] [22.0] [cxt 0] Transmitting packet of size 60 out of port 1
+[08:38:32.596] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Processing packet received on port 3
+[08:38:32.597] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Parser 'parser': start
+[08:38:32.597] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:32.597] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Extracting header 'ethernet'
+[08:38:32.597] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Parser state 'start': key is 86dd
+[08:38:32.597] [bmv2] [T] [thread 65431] [23.0] [cxt 0] Bytes parsed: 14
+[08:38:32.597] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Parser 'parser': end
+[08:38:32.597] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Pipeline 'ingress': start
+[08:38:32.597] [bmv2] [T] [thread 65431] [23.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:38:32.597] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Pipeline 'ingress': end
+[08:38:32.597] [bmv2] [D] [thread 65431] [23.0] [cxt 0] Egress port is 0
+[08:38:32.597] [bmv2] [D] [thread 65432] [23.0] [cxt 0] Pipeline 'egress': start
+[08:38:32.597] [bmv2] [T] [thread 65432] [23.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:32.597] [bmv2] [D] [thread 65432] [23.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:38:32.597] [bmv2] [D] [thread 65432] [23.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:38:32.597] [bmv2] [D] [thread 65432] [23.0] [cxt 0] Action entry is NoAction - 
+[08:38:32.597] [bmv2] [T] [thread 65432] [23.0] [cxt 0] Action NoAction
+[08:38:32.598] [bmv2] [D] [thread 65432] [23.0] [cxt 0] Pipeline 'egress': end
+[08:38:32.598] [bmv2] [D] [thread 65432] [23.0] [cxt 0] Deparser 'deparser': start
+[08:38:32.598] [bmv2] [T] [thread 65432] [23.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:38:32.598] [bmv2] [D] [thread 65432] [23.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:32.598] [bmv2] [D] [thread 65432] [23.0] [cxt 0] Deparser 'deparser': end
+[08:38:32.598] [bmv2] [D] [thread 65436] [23.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Processing packet received on port 1
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Parser 'parser': start
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Extracting header 'ethernet'
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Parser state 'start': key is 86dd
+[08:38:34.645] [bmv2] [T] [thread 65431] [24.0] [cxt 0] Bytes parsed: 14
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Parser 'parser': end
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Pipeline 'ingress': start
+[08:38:34.645] [bmv2] [T] [thread 65431] [24.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Pipeline 'ingress': end
+[08:38:34.645] [bmv2] [D] [thread 65431] [24.0] [cxt 0] Egress port is 0
+[08:38:34.646] [bmv2] [D] [thread 65432] [24.0] [cxt 0] Pipeline 'egress': start
+[08:38:34.646] [bmv2] [T] [thread 65432] [24.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:34.646] [bmv2] [D] [thread 65432] [24.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:38:34.646] [bmv2] [D] [thread 65432] [24.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:38:34.646] [bmv2] [D] [thread 65432] [24.0] [cxt 0] Action entry is NoAction - 
+[08:38:34.646] [bmv2] [T] [thread 65432] [24.0] [cxt 0] Action NoAction
+[08:38:34.646] [bmv2] [D] [thread 65432] [24.0] [cxt 0] Pipeline 'egress': end
+[08:38:34.646] [bmv2] [D] [thread 65432] [24.0] [cxt 0] Deparser 'deparser': start
+[08:38:34.646] [bmv2] [T] [thread 65432] [24.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:38:34.646] [bmv2] [D] [thread 65432] [24.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:34.646] [bmv2] [D] [thread 65432] [24.0] [cxt 0] Deparser 'deparser': end
+[08:38:34.646] [bmv2] [D] [thread 65436] [24.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Processing packet received on port 2
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Parser 'parser': start
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Extracting header 'ethernet'
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Parser state 'start': key is 86dd
+[08:38:36.690] [bmv2] [T] [thread 65431] [25.0] [cxt 0] Bytes parsed: 14
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Parser 'parser': end
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Pipeline 'ingress': start
+[08:38:36.690] [bmv2] [T] [thread 65431] [25.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Pipeline 'ingress': end
+[08:38:36.690] [bmv2] [D] [thread 65431] [25.0] [cxt 0] Egress port is 0
+[08:38:36.690] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Processing packet received on port 2
+[08:38:36.690] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Parser 'parser': start
+[08:38:36.690] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Parser 'parser' entering state 'start'
+[08:38:36.690] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Extracting header 'ethernet'
+[08:38:36.691] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Parser state 'start': key is 86dd
+[08:38:36.691] [bmv2] [T] [thread 65431] [26.0] [cxt 0] Bytes parsed: 14
+[08:38:36.691] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Parser 'parser': end
+[08:38:36.691] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Pipeline 'ingress': start
+[08:38:36.691] [bmv2] [T] [thread 65431] [26.0] [cxt 0] load_balance.p4(163) Condition "hdr.ipv4.isValid() && hdr.ipv4.ttl > 0" (node_2) is false
+[08:38:36.691] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Pipeline 'ingress': end
+[08:38:36.691] [bmv2] [D] [thread 65431] [26.0] [cxt 0] Egress port is 0
+[08:38:36.691] [bmv2] [D] [thread 65432] [25.0] [cxt 0] Pipeline 'egress': start
+[08:38:36.691] [bmv2] [T] [thread 65432] [25.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:36.691] [bmv2] [D] [thread 65432] [25.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:38:36.691] [bmv2] [D] [thread 65432] [25.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:38:36.691] [bmv2] [D] [thread 65432] [25.0] [cxt 0] Action entry is NoAction - 
+[08:38:36.691] [bmv2] [T] [thread 65432] [25.0] [cxt 0] Action NoAction
+[08:38:36.691] [bmv2] [D] [thread 65432] [25.0] [cxt 0] Pipeline 'egress': end
+[08:38:36.691] [bmv2] [D] [thread 65432] [25.0] [cxt 0] Deparser 'deparser': start
+[08:38:36.691] [bmv2] [T] [thread 65432] [25.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:38:36.691] [bmv2] [D] [thread 65432] [25.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:36.691] [bmv2] [D] [thread 65432] [25.0] [cxt 0] Deparser 'deparser': end
+[08:38:36.691] [bmv2] [D] [thread 65432] [26.0] [cxt 0] Pipeline 'egress': start
+[08:38:36.691] [bmv2] [T] [thread 65432] [26.0] [cxt 0] Applying table 'MyEgress.send_frame'
+[08:38:36.691] [bmv2] [D] [thread 65432] [26.0] [cxt 0] Looking up key:
+* standard_metadata.egress_port: 0000
+
+[08:38:36.691] [bmv2] [D] [thread 65432] [26.0] [cxt 0] Table 'MyEgress.send_frame': miss
+[08:38:36.691] [bmv2] [D] [thread 65432] [26.0] [cxt 0] Action entry is NoAction - 
+[08:38:36.691] [bmv2] [T] [thread 65432] [26.0] [cxt 0] Action NoAction
+[08:38:36.691] [bmv2] [D] [thread 65432] [26.0] [cxt 0] Pipeline 'egress': end
+[08:38:36.691] [bmv2] [D] [thread 65432] [26.0] [cxt 0] Deparser 'deparser': start
+[08:38:36.691] [bmv2] [T] [thread 65432] [26.0] [cxt 0] Skipping checksum 'cksum' update because condition not met
+[08:38:36.692] [bmv2] [D] [thread 65432] [26.0] [cxt 0] Deparsing header 'ethernet'
+[08:38:36.692] [bmv2] [D] [thread 65432] [26.0] [cxt 0] Deparser 'deparser': end
+[08:38:36.692] [bmv2] [D] [thread 65436] [25.0] [cxt 0] Transmitting packet of size 70 out of port 0
+[08:38:36.692] [bmv2] [D] [thread 65436] [26.0] [cxt 0] Transmitting packet of size 70 out of port 0
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
